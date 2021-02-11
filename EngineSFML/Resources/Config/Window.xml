@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configs>
+  <width>640</width>
+  <height>480</height>
+  <framelimit>60</framelimit>
+  <vertsync>true</vertsync>
+</configs>

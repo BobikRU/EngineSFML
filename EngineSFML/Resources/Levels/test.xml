@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<level>
+	<name>test0</name>
+	<blocks >
+		<block>
+			<name>grass</name>
+			<posX>32</posX>
+			<posY>32</posY>
+		</block>
+		<block>
+			<name>grass</name>
+			<posX>64</posX>
+			<posY>64</posY>
+		</block>
+		<block>
+			<name>grass</name>
+			<posX>96</posX>
+			<posY>96</posY>
+		</block>
+		<block>
+			<name>grass</name>
+			<posX>128</posX>
+			<posY>128</posY>
+		</block>
+	</blocks>
+	<entities>
+		<entity>
+			<name>player</name>
+			<posX>320</posX>
+			<posY>240</posY>
+		</entity>
+	</entities>
+</level>

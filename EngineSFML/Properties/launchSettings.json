@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "EngineSFML": {
+      "commandName": "Project",
+      "commandLineArgs": "debug",
+      "workingDirectory": "D:\\VisualProjects\\EngineSFML\\EngineSFML"
+    }
+  }
+}
