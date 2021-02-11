@@ -53,8 +53,22 @@ namespace EngineSFML.Main
             Label label = new Label(new Vector2f(300, 32), "WRITE HERE!");
             Canvas.Instance.AddGUI(label);
 
+            CheckBox checkBox = new CheckBox(new Vector2f(300, 90), "reverse");
+            Canvas.Instance.AddGUI(checkBox);
+
             Button button = new Button("CLICK HERE!", new Vector2f(300, 128));
-            button.Pressed += () => { Console.WriteLine(label.EnteredText); };
+            button.Pressed += () => 
+            {
+                if (checkBox.IsChecked)
+                {
+                    string oString = "";
+                    for (int i = label.EnteredText.Length - 1; i >= 0; --i)
+                        oString += label.EnteredText[i];
+                    Console.WriteLine(oString);
+                }
+                else
+                    Console.WriteLine(label.EnteredText);
+            };
             Canvas.Instance.AddGUI(button);
         }
         
