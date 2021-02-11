@@ -37,10 +37,11 @@ namespace EngineSFML.GUI
 
         public ButtonPressed Pressed;
 
-        public Button(string _text, Vector2f _pos)
+        public Button(Vector2f _pos, string _text)
         {
             Color c = new Color(Color.Cyan);
-            c.A = 128;
+            c.G = 128;
+            c.A = 255;
             enteredColor = c;
 
 
@@ -100,11 +101,8 @@ namespace EngineSFML.GUI
 
         public void Draw()
         {
-            if (isVisable)
-            {
-                MainWindow.Instance.RenderWindow.Draw(sprite);
-                MainWindow.Instance.RenderWindow.Draw(text);
-            }
+            MainWindow.Instance.RenderWindow.Draw(sprite);
+            MainWindow.Instance.RenderWindow.Draw(text);
         }
 
     }

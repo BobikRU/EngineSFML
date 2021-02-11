@@ -2,6 +2,7 @@
 <configs>
   <width>640</width>
   <height>480</height>
+  <fullscreen>false</fullscreen>
   <framelimit>60</framelimit>
   <vertsync>true</vertsync>
 </configs>

@@ -77,6 +77,28 @@ namespace EngineSFML.Main
             }
         }
 
+        private void SaveConfigs()
+        {
+            XmlNode rootWindow = xmlDocumentWindow.DocumentElement;
+
+            foreach (XmlNode node in rootWindow.ChildNodes)
+            {
+                if (window.ContainsKey(node.Name))
+                    node.InnerText = window[node.Name];
+            }
+
+            XmlNode rootControl = xmlDocumentControl.DocumentElement;
+
+            foreach (XmlNode node in rootControl.ChildNodes)
+            {
+                if (control.ContainsKey(node.Name))
+                    node.InnerText = control[node.Name];
+            }
+
+            xmlDocumentControl.Save("Resources\\Config\\Control.xml");
+            xmlDocumentWindow.Save("Resources\\Config\\Window.xml");
+        }
+
         private void CreateDefaultWindowConfig()
         {
             if (File.Exists("Resources\\Config\\Window.xml"))
@@ -88,6 +110,7 @@ namespace EngineSFML.Main
 
             root.AppendChild(CreateConfigNode(xmlDocumentWindow, "width", "640"));
             root.AppendChild(CreateConfigNode(xmlDocumentWindow, "height", "480"));
+            root.AppendChild(CreateConfigNode(xmlDocumentWindow, "fullscreen", "true"));
 
             root.AppendChild(CreateConfigNode(xmlDocumentWindow, "framelimit", "60"));
             root.AppendChild(CreateConfigNode(xmlDocumentWindow, "vertsync", "true"));
@@ -147,6 +170,29 @@ namespace EngineSFML.Main
                 }
             }
             return "not found";
+        }
+
+        public void SetConfig(string _name, string value)
+        {
+            string[] splited = _name.Split(".");
+            if (splited.Length >= 2)
+            {
+                string type = splited[0];
+                string config = splited[1];
+
+                switch (type)
+                {
+                    case "window":
+                        if (window.ContainsKey(config))
+                            window[config] = value;
+                        break;
+                    case "control":
+                        if (control.ContainsKey(config))
+                            control[config] = value;
+                        break;
+                }
+            }
+            SaveConfigs();
         }
 
     }

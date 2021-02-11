@@ -45,7 +45,8 @@ namespace EngineSFML.GUI
 
             for (int i = 0; i < uis.Count; ++i)
             {
-                uis[i].Update();
+                if (uis[i].IsVisable)
+                    uis[i].Update();
             }
         }
 
@@ -65,7 +66,8 @@ namespace EngineSFML.GUI
         {
             for (int i = 0; i < uis.Count; ++i)
             {
-                uis[i].Draw();
+                if (uis[i].IsVisable)
+                    uis[i].Draw();
             }
         }
 

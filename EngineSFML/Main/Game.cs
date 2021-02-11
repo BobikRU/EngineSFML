@@ -32,6 +32,10 @@ namespace EngineSFML.Main
         private Level level;
         public Level Level { get { return level; } }
 
+        private MainMenu mainMenu;
+
+        public MainMenu MainMenu { get { return mainMenu; } }
+
         private Game()
         {
             isStarted = false;
@@ -40,58 +44,25 @@ namespace EngineSFML.Main
 
             mainWindow.Update += Update;
             mainWindow.Draw += Draw;
-
-            level = new Level("test");
         }
 
         private void Init()
         {
-            level.LoadLevel();
-
-            Canvas.Instance.AddGUI(new UIDebug());
-
-            Label label = new Label(new Vector2f(300, 32), "WRITE HERE!");
-            Canvas.Instance.AddGUI(label);
-
-            CheckBox checkBox = new CheckBox(new Vector2f(300, 90), "reverse");
-            Canvas.Instance.AddGUI(checkBox);
-
-            string[] variants = { "Nothing", "to lower", "to upper" };
-            Slider slider = new Slider(new Vector2f(460, 90), variants);
-            Canvas.Instance.AddGUI(slider);
-
-            Button button = new Button("CLICK HERE!", new Vector2f(300, 128));
-            button.Pressed += () => 
-            {
-                string oString = "";
-                
-                if (checkBox.IsChecked)
-                {
-                    for (int i = label.EnteredText.Length - 1; i >= 0; --i)
-                        oString += label.EnteredText[i];
-                }
-                else
-                    oString = label.EnteredText;
-
-                if (slider.SelectedVariant == 0)
-                    Console.WriteLine(oString);
-                else if (slider.SelectedVariant == 1)
-                    Console.WriteLine(oString.ToLower());
-                else if (slider.SelectedVariant == 2)
-                    Console.WriteLine(oString.ToUpper());
-            };
-            Canvas.Instance.AddGUI(button);
+            mainMenu = new MainMenu();
+            Canvas.Instance.AddGUI(mainMenu);
         }
         
         public void Update()
         {
-            level.Update();
+            if (level != null)
+                level.Update();
             Canvas.Instance.Update();
         }
 
         public void Draw()
         {
-            level.Draw();
+            if (level != null)
+                level.Draw();
             Canvas.Instance.Draw();
         }
 

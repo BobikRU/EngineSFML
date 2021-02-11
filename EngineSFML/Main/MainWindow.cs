@@ -32,7 +32,9 @@ namespace EngineSFML.Main
 
             VideoMode videoMode = new VideoMode(uint.Parse(config.GetConfig("window.width")), uint.Parse(config.GetConfig("window.height")));
 
-            renderWindow = new RenderWindow(videoMode, config.GetConfig("window.title"));
+            Styles styles = bool.Parse(Settings.Instance.GetConfig("window.fullscreen")) ? Styles.Fullscreen : Styles.Default;
+
+            renderWindow = new RenderWindow(videoMode, config.GetConfig("window.title"), styles);
 
             renderWindow.SetVerticalSyncEnabled(bool.Parse(config.GetConfig("window.vertsync")));
             renderWindow.SetFramerateLimit(uint.Parse(config.GetConfig("window.framelimit")));

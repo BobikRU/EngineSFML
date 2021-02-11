@@ -43,8 +43,7 @@ namespace EngineSFML.GUI
 
         public void Draw()
         {
-            if (isVisable)
-                MainWindow.Instance.RenderWindow.Draw(debug);
+            MainWindow.Instance.RenderWindow.Draw(debug);
         }
 
     }

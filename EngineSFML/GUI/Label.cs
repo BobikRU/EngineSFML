@@ -63,16 +63,16 @@ namespace EngineSFML.GUI
             MainWindow.Instance.RenderWindow.MouseButtonPressed += (obj, e) =>
             {
                 
-                if (e.Button == Mouse.Button.Left && sprite.GetGlobalBounds().Contains(e.X, e.Y) && !isFocused)
+                if (e.Button == Mouse.Button.Left && sprite.GetGlobalBounds().Contains(e.X, e.Y) && !isFocused && isVisable)
                     isFocused = true;
 
-                if (e.Button == Mouse.Button.Left && !sprite.GetGlobalBounds().Contains(e.X, e.Y) && isFocused)
+                if (e.Button == Mouse.Button.Left && !sprite.GetGlobalBounds().Contains(e.X, e.Y) && isFocused && isVisable)
                     isFocused = false;
             };
 
             MainWindow.Instance.RenderWindow.TextEntered += (obj, e) =>
             {
-                if (isFocused)
+                if (isFocused && isVisable)
                 {
                     if ((int)e.Unicode[0] == 8 && enteredText.Length != 0)
                         enteredText = enteredText.Remove(enteredText.Length - 1);
@@ -126,11 +126,8 @@ namespace EngineSFML.GUI
 
         public void Draw()
         {
-            if (isVisable)
-            {
-                MainWindow.Instance.RenderWindow.Draw(sprite);
-                MainWindow.Instance.RenderWindow.Draw(text);
-            }
+            MainWindow.Instance.RenderWindow.Draw(sprite);
+            MainWindow.Instance.RenderWindow.Draw(text);
         }
 
     }

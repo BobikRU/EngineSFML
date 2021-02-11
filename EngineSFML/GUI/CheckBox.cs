@@ -49,7 +49,7 @@ namespace EngineSFML.GUI
 
             MainWindow.Instance.RenderWindow.MouseButtonPressed += (obj, e) =>
             {
-                if (sprite.GetGlobalBounds().Contains(e.X, e.Y) && e.Button == Mouse.Button.Left)
+                if (sprite.GetGlobalBounds().Contains(e.X, e.Y) && e.Button == Mouse.Button.Left && isVisable)
                 {
                     isPressed = true;
                     isChecked = !isChecked;
@@ -77,11 +77,8 @@ namespace EngineSFML.GUI
 
         public void Draw()
         {
-            if (isVisable)
-            {
-                MainWindow.Instance.RenderWindow.Draw(sprite);
-                MainWindow.Instance.RenderWindow.Draw(text);
-            }
+            MainWindow.Instance.RenderWindow.Draw(sprite);
+            MainWindow.Instance.RenderWindow.Draw(text);
         }
     }
 }

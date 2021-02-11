@@ -70,7 +70,7 @@ namespace EngineSFML.GUI
 
             MainWindow.Instance.RenderWindow.MouseButtonPressed += (obj, e) => 
             {
-                if (!isPressed && e.Button == Mouse.Button.Left)
+                if (!isPressed && e.Button == Mouse.Button.Left && isVisable)
                 {
                     isPressed = true;
                     for (int i = 0; i < variantCount; ++i)
@@ -83,7 +83,7 @@ namespace EngineSFML.GUI
 
             MainWindow.Instance.RenderWindow.MouseButtonReleased += (obj, e) =>
             {
-                if (isPressed)
+                if (isPressed && isVisable)
                     isPressed = false;
             };
         }
@@ -104,18 +104,15 @@ namespace EngineSFML.GUI
         }
 
         public void Draw()
-        {
-            if (isVisable)
+        { 
+            for (int i = 0; i < variantCount; ++i)
             {
-                for (int i = 0; i < variantCount; ++i)
-                {
-                    MainWindow.Instance.RenderWindow.Draw(sprites[i]);
-
-                    MainWindow.Instance.RenderWindow.Draw(texts[i]);
-                }
-
-                MainWindow.Instance.RenderWindow.Draw(cursor);
+                MainWindow.Instance.RenderWindow.Draw(sprites[i]);
+                
+                MainWindow.Instance.RenderWindow.Draw(texts[i]);
             }
+            
+            MainWindow.Instance.RenderWindow.Draw(cursor);
         }
 
     }
