@@ -56,18 +56,29 @@ namespace EngineSFML.Main
             CheckBox checkBox = new CheckBox(new Vector2f(300, 90), "reverse");
             Canvas.Instance.AddGUI(checkBox);
 
+            string[] variants = { "Nothing", "to lower", "to upper" };
+            Slider slider = new Slider(new Vector2f(460, 90), variants);
+            Canvas.Instance.AddGUI(slider);
+
             Button button = new Button("CLICK HERE!", new Vector2f(300, 128));
             button.Pressed += () => 
             {
+                string oString = "";
+                
                 if (checkBox.IsChecked)
                 {
-                    string oString = "";
                     for (int i = label.EnteredText.Length - 1; i >= 0; --i)
                         oString += label.EnteredText[i];
-                    Console.WriteLine(oString);
                 }
                 else
-                    Console.WriteLine(label.EnteredText);
+                    oString = label.EnteredText;
+
+                if (slider.SelectedVariant == 0)
+                    Console.WriteLine(oString);
+                else if (slider.SelectedVariant == 1)
+                    Console.WriteLine(oString.ToLower());
+                else if (slider.SelectedVariant == 2)
+                    Console.WriteLine(oString.ToUpper());
             };
             Canvas.Instance.AddGUI(button);
         }
