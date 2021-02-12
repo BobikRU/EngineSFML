@@ -20,7 +20,7 @@ namespace EngineSFML.GUI
 
         private Button buttonSettings;
 
-        private Button butttonExit;
+        private Button buttonExit;
 
         private Image background;
 
@@ -37,31 +37,32 @@ namespace EngineSFML.GUI
             Canvas.Instance.AddGUI(background);
 
             buttonPlay = new Button(new Vector2f(Canvas.Instance.ZeroCoordX + MainWindow.Instance.RenderWindow.Size.X / 2 - 64, Canvas.Instance.ZeroCoordY + MainWindow.Instance.RenderWindow.Size.Y / 2 - 64), "Играть");
-            buttonPlay.Pressed += () =>
+            buttonPlay.Pressed += (obj, e) => 
             {
-                // TODO start game
+                Canvas.Instance.RemoveGUI(this);
             };
 
             Canvas.Instance.AddGUI(buttonPlay);
 
             buttonSettings = new Button(new Vector2f(Canvas.Instance.ZeroCoordX + MainWindow.Instance.RenderWindow.Size.X / 2 - 64, Canvas.Instance.ZeroCoordY + MainWindow.Instance.RenderWindow.Size.Y / 2 - 16), "Настройки");
-            buttonSettings.Pressed += () => 
+            buttonSettings.Pressed += (obj, e) => 
             {
-                // TODO open settings editor
+                Canvas.Instance.RemoveGUI(this);
+                Canvas.Instance.AddGUI(new MenuSettings(true));
             };
             Canvas.Instance.AddGUI(buttonSettings);
 
-            butttonExit = new Button(new Vector2f(Canvas.Instance.ZeroCoordX + MainWindow.Instance.RenderWindow.Size.X / 2 - 64, Canvas.Instance.ZeroCoordY + MainWindow.Instance.RenderWindow.Size.Y / 2 + 32), "Выйти");
-            butttonExit.Pressed += () => { Main.MainWindow.Instance.RenderWindow.Close(); };
+            buttonExit = new Button(new Vector2f(Canvas.Instance.ZeroCoordX + MainWindow.Instance.RenderWindow.Size.X / 2 - 64, Canvas.Instance.ZeroCoordY + MainWindow.Instance.RenderWindow.Size.Y / 2 + 32), "Выйти");
+            buttonExit.Pressed += (obj, e) => { Main.MainWindow.Instance.RenderWindow.Close(); };
 
-            Canvas.Instance.AddGUI(butttonExit);
+            Canvas.Instance.AddGUI(buttonExit);
         }
 
         public void Update()
         {
             buttonPlay.Pos = new Vector2f(Canvas.Instance.ZeroCoordX + MainWindow.Instance.RenderWindow.Size.X / 2 - 64, Canvas.Instance.ZeroCoordY + MainWindow.Instance.RenderWindow.Size.Y / 2 - 64);
             buttonSettings.Pos = new Vector2f(Canvas.Instance.ZeroCoordX + MainWindow.Instance.RenderWindow.Size.X / 2 - 64, Canvas.Instance.ZeroCoordY + MainWindow.Instance.RenderWindow.Size.Y / 2 - 16);
-            butttonExit.Pos = new Vector2f(Canvas.Instance.ZeroCoordX + MainWindow.Instance.RenderWindow.Size.X / 2 - 64, Canvas.Instance.ZeroCoordY + MainWindow.Instance.RenderWindow.Size.Y / 2 + 32);
+            buttonExit.Pos = new Vector2f(Canvas.Instance.ZeroCoordX + MainWindow.Instance.RenderWindow.Size.X / 2 - 64, Canvas.Instance.ZeroCoordY + MainWindow.Instance.RenderWindow.Size.Y / 2 + 32);
             background.Scale = new Vector2f((float)MainWindow.Instance.RenderWindow.Size.X / 800f,
                                      (float)MainWindow.Instance.RenderWindow.Size.Y / 600f);
         }
@@ -69,6 +70,14 @@ namespace EngineSFML.GUI
         public void Draw()
         {
             
+        }
+
+        public void Removed()
+        {
+            Canvas.Instance.RemoveGUI(background);
+            Canvas.Instance.RemoveGUI(buttonPlay);
+            Canvas.Instance.RemoveGUI(buttonSettings);
+            Canvas.Instance.RemoveGUI(buttonExit);
         }
 
     }

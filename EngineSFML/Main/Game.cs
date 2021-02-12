@@ -32,10 +32,6 @@ namespace EngineSFML.Main
         private Level level;
         public Level Level { get { return level; } }
 
-        private MainMenu mainMenu;
-
-        public MainMenu MainMenu { get { return mainMenu; } }
-
         private Game()
         {
             isStarted = false;
@@ -48,8 +44,7 @@ namespace EngineSFML.Main
 
         private void Init()
         {
-            mainMenu = new MainMenu();
-            Canvas.Instance.AddGUI(mainMenu);
+            Canvas.Instance.AddGUI(new MainMenu());
         }
         
         public void Update()

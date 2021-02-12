@@ -35,6 +35,9 @@ namespace EngineSFML.GUI
         private bool cursorShowed = false;
         private float cursorShowedTime;
 
+        private EventHandler<MouseButtonEventArgs> mousePressed;
+        private EventHandler<TextEventArgs> textEntered;
+
         public string EnteredText
         {
             get { return enteredText; }
@@ -60,17 +63,18 @@ namespace EngineSFML.GUI
 
             text.Position = new Vector2f(Pos.X + ((sprite.Texture.Size.X / 2) - textWidth / 2), Pos.Y + ((sprite.Texture.Size.Y / 2) - textHeight / 2 - 3));
 
-            MainWindow.Instance.RenderWindow.MouseButtonPressed += (obj, e) =>
+            mousePressed = (obj, e) =>
             {
-                
-                if (e.Button == Mouse.Button.Left && sprite.GetGlobalBounds().Contains(e.X, e.Y) && !isFocused && isVisable)
+
+                if (e.Button == Mouse.Button.Left && sprite.GetGlobalBounds().Contains(MainWindow.Instance.RenderWindow.MapPixelToCoords(new Vector2i(e.X, e.Y)).X, MainWindow.Instance.RenderWindow.MapPixelToCoords(new Vector2i(e.X, e.Y)).Y) && !isFocused && isVisable)
                     isFocused = true;
 
-                if (e.Button == Mouse.Button.Left && !sprite.GetGlobalBounds().Contains(e.X, e.Y) && isFocused && isVisable)
+                if (e.Button == Mouse.Button.Left && !sprite.GetGlobalBounds().Contains(MainWindow.Instance.RenderWindow.MapPixelToCoords(new Vector2i(e.X, e.Y)).X, MainWindow.Instance.RenderWindow.MapPixelToCoords(new Vector2i(e.X, e.Y)).Y) && isFocused && isVisable)
                     isFocused = false;
             };
+            MainWindow.Instance.RenderWindow.MouseButtonPressed += mousePressed;
 
-            MainWindow.Instance.RenderWindow.TextEntered += (obj, e) =>
+            textEntered = (obj, e) =>
             {
                 if (isFocused && isVisable)
                 {
@@ -82,6 +86,7 @@ namespace EngineSFML.GUI
                         enteredText += e.Unicode;
                 }
             };
+            MainWindow.Instance.RenderWindow.TextEntered += textEntered;
         }
 
         public void Update()
@@ -128,6 +133,13 @@ namespace EngineSFML.GUI
         {
             MainWindow.Instance.RenderWindow.Draw(sprite);
             MainWindow.Instance.RenderWindow.Draw(text);
+        }
+
+        public void Removed()
+        {
+            MainWindow.Instance.RenderWindow.MouseButtonPressed += mousePressed;
+            MainWindow.Instance.RenderWindow.TextEntered -= textEntered;
+            // Removed
         }
 
     }

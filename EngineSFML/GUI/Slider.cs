@@ -31,12 +31,22 @@ namespace EngineSFML.GUI
 
         public int SelectedVariant { get { return selectedVariant; } }
 
-        private bool isPressed;
+        public class HasChangedArgs : EventArgs
+        {
+            public int variant;
+            public HasChangedArgs(int _var)
+            {
+                variant = _var;
+            }
+        }
+
+        public event EventHandler<HasChangedArgs> HasChanged;
+
+        private EventHandler<MouseButtonEventArgs> mousePressed;
 
         public Slider(Vector2f _pos, string[] _variants, int _default = 0)
         {
             isVisable = true;
-            isPressed = false;
 
             variants = _variants;
             variantCount = variants.Length;
@@ -68,24 +78,21 @@ namespace EngineSFML.GUI
                 Position = new Vector2f(_pos.X + 24 * selectedVariant, _pos.Y - 4)
             };
 
-            MainWindow.Instance.RenderWindow.MouseButtonPressed += (obj, e) => 
+            mousePressed = (obj, e) =>
             {
-                if (!isPressed && e.Button == Mouse.Button.Left && isVisable)
+                if (e.Button == Mouse.Button.Left && isVisable)
                 {
-                    isPressed = true;
                     for (int i = 0; i < variantCount; ++i)
                     {
-                        if (sprites[i].GetGlobalBounds().Contains(e.X, e.Y) && i != selectedVariant)
+                        if (sprites[i].GetGlobalBounds().Contains(MainWindow.Instance.RenderWindow.MapPixelToCoords(new Vector2i(e.X, e.Y)).X, MainWindow.Instance.RenderWindow.MapPixelToCoords(new Vector2i(e.X, e.Y)).Y) && i != selectedVariant)
+                        {
                             selectedVariant = i;
+                            HasChanged?.Invoke(this, new HasChangedArgs(selectedVariant));
+                        }
                     }
                 }
             };
-
-            MainWindow.Instance.RenderWindow.MouseButtonReleased += (obj, e) =>
-            {
-                if (isPressed && isVisable)
-                    isPressed = false;
-            };
+            MainWindow.Instance.RenderWindow.MouseButtonPressed += mousePressed;
         }
 
         public void Update()
@@ -113,6 +120,12 @@ namespace EngineSFML.GUI
             }
             
             MainWindow.Instance.RenderWindow.Draw(cursor);
+        }
+
+        public void Removed()
+        {
+            MainWindow.Instance.RenderWindow.MouseButtonPressed -= mousePressed;
+            //Removed
         }
 
     }

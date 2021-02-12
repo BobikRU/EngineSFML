@@ -73,6 +73,9 @@ namespace EngineSFML.Levels
         private bool isLoadead;
         public bool IsLoaded { get { return isLoadead; } }
 
+        private bool isPaused;
+        public bool IsPaused { get { return isPaused; } set { isPaused = value; } }
+
         public Level(string _levelname)
         {
 
@@ -376,20 +379,22 @@ namespace EngineSFML.Levels
 
         public void Update()
         {
-            for (int i = 0; i < entities.Count; ++i)
+            if (!isPaused)
             {
-                entities[i].Update();
-                if (i < entities.Count)
-                    CheckCollsion(entities[i], out _);
-            }
+                for (int i = 0; i < entities.Count; ++i)
+                {
+                    entities[i].Update();
+                    if (i < entities.Count)
+                        CheckCollsion(entities[i], out _);
+                }
 
-            for (int i = 0; i < blocks.Count; ++i)
-            {
-                blocks[i].Update();
-                if (i < blocks.Count)
-                    CheckCollsion(blocks[i], out _);
+                for (int i = 0; i < blocks.Count; ++i)
+                {
+                    blocks[i].Update();
+                    if (i < blocks.Count)
+                        CheckCollsion(blocks[i], out _);
+                }
             }
-
         }
 
         public void CheckCollsion(GameObject obj, out CollisionState _state)

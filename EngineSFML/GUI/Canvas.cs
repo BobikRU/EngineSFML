@@ -59,7 +59,10 @@ namespace EngineSFML.GUI
         public void RemoveGUI(IUI ui)
         {
             if (uis.Contains(ui))
+            {
                 uis.Remove(ui);
+                ui.Removed();
+            }
         }
 
         public void Draw()

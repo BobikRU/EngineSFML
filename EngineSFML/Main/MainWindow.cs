@@ -25,6 +25,9 @@ namespace EngineSFML.Main
         private float deltaTime;
         public float DeltaTime { get { return deltaTime; } }
 
+        private bool isFullscreen;
+        public bool IsFullscreen { get { return isFullscreen; } }
+
 
         private MainWindow()
         {
@@ -32,7 +35,8 @@ namespace EngineSFML.Main
 
             VideoMode videoMode = new VideoMode(uint.Parse(config.GetConfig("window.width")), uint.Parse(config.GetConfig("window.height")));
 
-            Styles styles = bool.Parse(Settings.Instance.GetConfig("window.fullscreen")) ? Styles.Fullscreen : Styles.Default;
+            isFullscreen = bool.Parse(Settings.Instance.GetConfig("window.fullscreen"));
+            Styles styles = isFullscreen ? Styles.Fullscreen : Styles.Default;
 
             renderWindow = new RenderWindow(videoMode, config.GetConfig("window.title"), styles);
 

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <configs>
-  <width>640</width>
+  <width>720</width>
   <height>480</height>
-  <fullscreen>false</fullscreen>
+  <fullscreen>False</fullscreen>
   <framelimit>60</framelimit>
   <vertsync>true</vertsync>
 </configs>

@@ -46,5 +46,9 @@ namespace EngineSFML.GUI
             MainWindow.Instance.RenderWindow.Draw(debug);
         }
 
+        public void Removed()
+        {
+            // Removed
+        }
     }
 }

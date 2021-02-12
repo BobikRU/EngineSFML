@@ -24,18 +24,28 @@ namespace EngineSFML.GUI
 
         private Text text;
 
-        private bool isPressed;
         private bool isChecked;
 
+        private EventHandler<MouseButtonEventArgs> mousePressed;
 
         public bool IsChecked { get { return isChecked; } }
+
+        public class HasChangedArgs : EventArgs
+        {
+            public bool isChecked;
+            public HasChangedArgs(bool _isChecked)
+            {
+                isChecked = _isChecked;
+            }
+        }
+
+        public event EventHandler<HasChangedArgs> HasChanged;
 
         public CheckBox(Vector2f _pos, string _name, bool _default = false)
         {
             isVisable = true;
             isChecked = _default;
             stringText = _name;
-            isPressed = false;
 
             texture = new Texture("Resources\\Sprites\\GUI\\CheckBox.png");
             sprite = new Sprite(texture);
@@ -47,22 +57,15 @@ namespace EngineSFML.GUI
 
             text.Position = new Vector2f(Pos.X + 24, Pos.Y);
 
-            MainWindow.Instance.RenderWindow.MouseButtonPressed += (obj, e) =>
+            mousePressed = (obj, e) =>
             {
-                if (sprite.GetGlobalBounds().Contains(e.X, e.Y) && e.Button == Mouse.Button.Left && isVisable)
+                if (sprite.GetGlobalBounds().Contains(MainWindow.Instance.RenderWindow.MapPixelToCoords(new Vector2i(e.X, e.Y)).X, MainWindow.Instance.RenderWindow.MapPixelToCoords(new Vector2i(e.X, e.Y)).Y) && e.Button == Mouse.Button.Left && isVisable)
                 {
-                    isPressed = true;
                     isChecked = !isChecked;
+                    HasChanged?.Invoke(this, new HasChangedArgs(IsChecked));
                 }
             };
-
-            MainWindow.Instance.RenderWindow.MouseButtonReleased += (obj, e) =>
-            {
-                if (isPressed && e.Button == Mouse.Button.Left)
-                {
-                    isPressed = false;
-                }
-            };
+            MainWindow.Instance.RenderWindow.MouseButtonPressed += mousePressed;
         }
 
         public void Update()
@@ -79,6 +82,12 @@ namespace EngineSFML.GUI
         {
             MainWindow.Instance.RenderWindow.Draw(sprite);
             MainWindow.Instance.RenderWindow.Draw(text);
+        }
+
+        public void Removed()
+        {
+            MainWindow.Instance.RenderWindow.MouseButtonPressed -= mousePressed;
+            // Removed
         }
     }
 }

@@ -22,6 +22,8 @@ namespace EngineSFML.GUI
 
         public Vector2f Scale { get { return imageSprite.Scale; } set { imageSprite.Scale = value; } }
 
+        public Color Color { get { return imageSprite.Color; } set { imageSprite.Color = value; } }
+
         public Image(Vector2f _pos, string _filename)
         {
             isVisable = true;
@@ -35,12 +37,16 @@ namespace EngineSFML.GUI
 
         public void Update()
         {
-
         }
 
         public void Draw()
         {
             MainWindow.Instance.RenderWindow.Draw(imageSprite);
+        }
+
+        public void Removed()
+        {
+            // Removed
         }
     }
 }

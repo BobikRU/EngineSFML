@@ -12,5 +12,7 @@ namespace EngineSFML.GUI
 
         public void Draw();
 
+        public void Removed();
+
     }
 }

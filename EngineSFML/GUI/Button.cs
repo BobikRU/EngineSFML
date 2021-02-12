@@ -17,8 +17,6 @@ namespace EngineSFML.GUI
 
         private readonly Color enteredColor;
 
-        public delegate void ButtonPressed();
-
         private bool isVisable;
         public bool IsVisable { get { return isVisable; } set { isVisable = value; } }
 
@@ -33,9 +31,10 @@ namespace EngineSFML.GUI
 
         private bool isEntered;
 
-        private bool isPressed;
+        public event EventHandler Pressed;
 
-        public ButtonPressed Pressed;
+        private EventHandler<MouseMoveEventArgs> mouseMoved;
+        private EventHandler<MouseButtonEventArgs> mousePressed;
 
         public Button(Vector2f _pos, string _text)
         {
@@ -50,7 +49,6 @@ namespace EngineSFML.GUI
 
             isVisable = true;
             isEntered = false;
-            isPressed = false;
 
             stringText = _text;
 
@@ -60,30 +58,23 @@ namespace EngineSFML.GUI
 
             Pos = _pos;
 
-            MainWindow.Instance.RenderWindow.MouseMoved += (obj, e) =>
+            mouseMoved = (obj, e) =>
             {
-                if (sprite.GetGlobalBounds().Contains(e.X, e.Y) && isVisable)
+                if (sprite.GetGlobalBounds().Contains(MainWindow.Instance.RenderWindow.MapPixelToCoords(new Vector2i(e.X, e.Y)).X, MainWindow.Instance.RenderWindow.MapPixelToCoords(new Vector2i(e.X, e.Y)).Y) && isVisable)
                     isEntered = true;
                 else
                     isEntered = false;
             };
 
-            MainWindow.Instance.RenderWindow.MouseButtonPressed += (obj, e) =>
+            mousePressed = (obj, e) =>
             {
-                if (isEntered && !isPressed && isVisable && e.Button == Mouse.Button.Left)
+                if (isEntered && isVisable && e.Button == Mouse.Button.Left)
                 {
-                    isPressed = true;
-                    Pressed?.Invoke();
+                    Pressed?.Invoke(this, null);
                 }
             };
-
-            MainWindow.Instance.RenderWindow.MouseButtonReleased += (obj, e) =>
-            {
-                if (isPressed && isVisable)
-                {
-                    isPressed = false;
-                }
-            };
+            MainWindow.Instance.RenderWindow.MouseMoved += mouseMoved;
+            MainWindow.Instance.RenderWindow.MouseButtonPressed += mousePressed;
         }
 
         public void Update()
@@ -105,5 +96,11 @@ namespace EngineSFML.GUI
             MainWindow.Instance.RenderWindow.Draw(text);
         }
 
+        public void Removed()
+        {
+            MainWindow.Instance.RenderWindow.MouseMoved -= mouseMoved;
+            MainWindow.Instance.RenderWindow.MouseButtonPressed -= mousePressed;
+            // Removed
+        }
     }
 }
