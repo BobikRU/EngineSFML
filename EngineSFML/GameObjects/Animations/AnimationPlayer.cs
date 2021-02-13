@@ -21,7 +21,7 @@ namespace EngineSFML.GameObjects.Animations
         private PlayerState state;
         public PlayerState State { set { state = value; } get { return state; } }
 
-        public AnimationPlayer(EntityPlayer _plr) : base(_plr, 4, 36, 72, 0.1f)
+        public AnimationPlayer(Entity _plr) : base(_plr, 4, 36, 72, 0.1f)
         {
             state = PlayerState.idle;
         }

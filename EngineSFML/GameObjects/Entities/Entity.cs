@@ -13,10 +13,17 @@ namespace EngineSFML.GameObjects.Entities
     public abstract class Entity : GameObject
     {
 
+        public static int lastIntID = 0;
+        public static List<string> entitiesIDs = new List<string>();
+
+        protected string entityID;
+        public string EntityID { get { return entityID; } }
+
         public const int EntityNameCount = 1;
         public enum EntityName
         {
-            player
+            player,
+            playerMP
         }
 
         protected float maxHealth;
@@ -28,10 +35,20 @@ namespace EngineSFML.GameObjects.Entities
 
         protected Entity(Vector2f _pos, Vector2f _size, string _filename, EntityName _name) : base(_pos, _size, _filename, Type.entity, _name.ToString())
         {
+            entityID = _name.ToString() + "_" + lastIntID;
+            entitiesIDs.Add(entityID);
+            lastIntID++;
+
             maxHealth = 100;
             health = maxHealth;
 
             speed = 0.07f;
+        }
+
+        public override void Destroy()
+        {
+            entitiesIDs.Remove(entityID);
+            base.Destroy();
         }
 
         public override void Update()

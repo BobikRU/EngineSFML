@@ -40,6 +40,7 @@ namespace EngineSFML.GUI
             buttonPlay.Pressed += (obj, e) => 
             {
                 Canvas.Instance.RemoveGUI(this);
+                Canvas.Instance.AddGUI(new MenuStartGame());
             };
 
             Canvas.Instance.AddGUI(buttonPlay);

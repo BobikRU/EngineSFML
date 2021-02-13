@@ -107,8 +107,7 @@ namespace EngineSFML.GUI
 
         public void Update()
         {
-            if (isMenu)
-                background.Scale = new Vector2f((float)MainWindow.Instance.RenderWindow.Size.X / 800f,
+            background.Scale = new Vector2f((float)MainWindow.Instance.RenderWindow.Size.X / 800f,
                                      (float)MainWindow.Instance.RenderWindow.Size.Y / 600f);
             buttonBack.Pos = new Vector2f(Canvas.Instance.ZeroCoordX + MainWindow.Instance.RenderWindow.Size.X / 2 - 64, Canvas.Instance.ZeroCoordY + MainWindow.Instance.RenderWindow.Size.Y / 2 + 32);
             sliderResolution.Pos = new Vector2f(Canvas.Instance.ZeroCoordX + MainWindow.Instance.RenderWindow.Size.X / 2 - 96, Canvas.Instance.ZeroCoordY + MainWindow.Instance.RenderWindow.Size.Y / 2 - 96);

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using EngineSFML.Main;
+using EngineSFML.Networking;
 
 namespace EngineSFML
 {

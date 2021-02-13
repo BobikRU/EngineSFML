@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <configs>
-  <width>720</width>
+  <width>640</width>
   <height>480</height>
   <fullscreen>False</fullscreen>
   <framelimit>60</framelimit>

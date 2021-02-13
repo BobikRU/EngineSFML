@@ -13,6 +13,7 @@ using EngineSFML.Main;
 using EngineSFML.GUI;
 using System.Xml;
 using System.IO;
+using EngineSFML.Networking;
 
 namespace EngineSFML.Levels
 {
@@ -125,6 +126,41 @@ namespace EngineSFML.Levels
             xmlDocument.AppendChild(root);
 
             xmlDocument.Save("Resources\\Levels\\" + levelname + ".xml");
+        }
+
+        public void UpdateEntityByPacket(PacketEntityData packet)
+        {
+            string entityID = packet.EntityID;
+            string entityType = entityID.Split("_")[0];
+            float posX = packet.PosX;
+            float posY = packet.PosY;
+            string addData = packet.AddData;
+
+            if (entityType == "player")
+            {
+                Console.WriteLine(packet.ToString());
+                string playerName = addData.Split(".")[0];
+                bool isMoving = bool.Parse(addData.Split(".")[1]);
+                Utils.Direction moveDir = (Utils.Direction)int.Parse(addData.Split(".")[2]);
+
+                EntityPlayerMP player = GetPlayerAtName(playerName);
+                if (player != null)
+                {
+                    player.SetMove(moveDir, isMoving);
+                    player.Pos = new Vector2f(posX, posY);
+                }
+            }
+        }
+
+        public EntityPlayerMP GetPlayerAtName(string playerName)
+        {
+            foreach (Entity entity in entities)
+            {
+                if (entity.ObjectTag == "playerMP" && ((EntityPlayerMP)entity).PlayerName == playerName)
+                    return (EntityPlayerMP)entity;
+            }
+
+            return null;
         }
 
         public void LoadLevel()
@@ -291,7 +327,7 @@ namespace EngineSFML.Levels
             return isfree;
         }
 
-        public bool SpawnEntity(Entity.EntityName name, Vector2f pos)
+        public bool SpawnEntity(Entity.EntityName name, Vector2f pos, object _info = null)
         {
             bool spawned = true;
 
@@ -306,6 +342,9 @@ namespace EngineSFML.Levels
                             entity = new EntityPlayer(pos);
                         else
                             spawned = false;
+                        break;
+                    case Entity.EntityName.playerMP:
+                        entity = new EntityPlayerMP(pos, (string) _info);
                         break;
                     default:
                         spawned = false;
